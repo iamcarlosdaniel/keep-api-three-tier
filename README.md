@@ -15,27 +15,13 @@ Three-tier architecture is a well-established software application architecture 
 
 ### The three tiers in detail
 
-- #### Presentation tier
+- **Presentation Tier:** This is the user interface layer where end users interact with the application. It displays and collects information and can be implemented via web browsers, desktop applications, or GUIs using HTML, CSS, and JavaScript.
 
-  The presentation tier is the user interface and communication layer of the application, where the end user interacts with the application. Its main purpose is to display information to and collect information from the user. This top-level tier can run on a web browser, as desktop application, or a graphical user interface (GUI), for example. Web presentation tiers are developed by using HTML, CSS, and JavaScript. Desktop applications can be written in various languages depending on the platform.
+- **Application Tier:** Known as the logic or middle tier, this is the core of the application where data from the presentation tier is processed using business logic and rules. It also handles data modification in the data tier.
 
-- #### Application tier
+- **Data Tier:** Also called the database tier, this is where processed information is stored and managed, using either relational databases (e.g., PostgreSQL, MySQL) or NoSQL databases (e.g., MongoDB). Communication between the presentation and data tiers occurs exclusively through the application tier.
 
-  The application tier, also known as the logic tier or middle tier, is the heart of the application. In this tier, information that is collected in the presentation tier is processed - sometimes against other information in the data tier - using business logic, a specific set of business rules. The application tier can also add, delete, or modify data in the data tier.
-
-- #### Data tier
-
-  The data tier, sometimes called database tier, data access tier or back-end, is where the information that is processed by the application is stored and managed. This can be a relational database management system such as PostgreSQL, MySQL, MariaDB, Oracle, Db2, Informix or Microsoft SQL Server, or in a NoSQL Database server such as Cassandra, CouchDB, or MongoDB.
-
-  In a three-tier application, all communication goes through the application tier. The presentation tier and the data tier cannot communicate directly with one another.
-
-- #### Tier versus layer
-
-  In discussions of three-tier architecture, layer is often used interchangeably – and mistakenly – for tier, as in 'presentation layer' or 'business logic layer'.
-
-  They aren't the same. A 'layer' refers to a functional division of the software, but a 'tier' refers to a functional division of the software that runs on infrastructure separate from the other divisions. The Contacts app on your phone, for example, is a three-layer application, but a single-tier application, because all three layers run on your phone.
-
-  The difference is important because layers can't offer the same benefits as tiers.
+- **Tier vs. Layer:** The terms "tier" and "layer" are often confused. A "layer" refers to a functional division within the software, while a "tier" indicates a division that operates on separate infrastructure. For instance, a Contacts app is a three-layer but single-tier application since all layers run on the same device. Understanding this distinction is crucial, as layers do not provide the same benefits as tiers.
 
 ### Benefits of three-tier architecture
 
@@ -51,19 +37,55 @@ All business logic will be implemented in the service layer, which will expose c
 
 The third layer is the data access layer, where we will interact directly with the database.
 
+---
+
 You can learn more about the three-tier architecture in this [article from IBM.](https://www.ibm.com/topics/three-tier-architecture)
-
-## Requirements
-
-We are developing an API (Application Programming Interface), so we will categorize the requirements into two sections: functional and non-functional. The functional requirements will cover all the functionalities accessible to developers through our API. In contrast, the non-functional requirements will describe the internal operation and behavior of the API, which will not be directly accessible to developers.
-
-### [Functional Requirements]()
-
-### [Non-functional requirements
 
 ## Database
 
+This will be the database we will use. Although we are utilizing MongoDB, which is a non-relational database, it is possible to represent an entity-relationship diagram similar to that of a SQL database to facilitate better data management.
+
+Below is the entity-relationship diagram:
+
 ![](docs/entity_relationship_diagram.svg)
+
+As can be seen, this is a relatively simple database, but it is sufficient for the needs of this project. We have the users table, which has a one-to-many relationship with both the sessions table and the notes table.
+
+Below is a detailed description of each of the tables.
+
+### **Users**
+
+The users table includes the following fields:
+
+- **id:** This field will store the unique identifier of the user.
+- **username:** A unique string field that will serve as the user’s identifier within the system.
+- **first name, last name, and email:** All of these fields are of type string and will store the user’s personal information.
+- **password:** This field will be used to store the user’s password in encrypted format.
+
+> - **createdAt:** This field will store the creation date.
+> - **updatedAt:** This field will store the date of the last update.
+
+### **Notes**
+
+The notes table consists of the following fields:
+
+- **id:** This field will store the unique identifier for each note.
+- **user_id:** This field will reference the identifier of the user who created the note.
+- **body:** This field will contain the text or content of the note.
+
+> - **createdAt:** This field will store the creation date.
+> - **updatedAt:** This field will store the date of the last update.
+
+### **Sessions**
+
+The sessions table is structured with the following fields:
+
+- **id:** This field will store the unique identifier for each session.
+- **user_id:** This field will reference the identifier of the user associated with the session.
+- **access_token:** This field will store the access token linked to the corresponding session.
+
+> - **createdAt:** This field will store the creation date.
+> - **updatedAt:** This field will store the date of the last update.
 
 ## Getting started
 
@@ -90,6 +112,32 @@ We are developing an API (Application Programming Interface), so we will categor
    ```sh
    npm run dev
    ```
+
+> The project is configured to run on port 3000, so ensure that this port is available for use and check the database connection. You can find these and other options in the environment variables of the project located in the `.env` file.
+
+## API Documentation
+
+<img src="docs/swagger_logo.svg" alt="Swagger Logo" width="300">
+
+Swagger is an open-source set of tools that assists in designing, building, documenting, and consuming RESTful APIs. It provides a standardized and visual way to interact with APIs, enhancing the understanding and utilization of their endpoints.
+
+Swagger is particularly beneficial in environments where collaboration between development and testing teams is essential, as it offers a clear and standardized method for documenting and consuming APIs.
+
+We utilized this tool by employing the middleware [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express).
+
+You can find the API documentation at the following route:
+
+```
+http://localhost:3000/api/v1/docs
+```
+
+Make sure that the project is running and that port 3000 is not occupied in order to access this route.
+
+> You can change the port number and other options in the environment variables of the project located in the `.env` file.
+
+## Dependencies
+
+You can view the project dependencies along with their versions in the [package.json](package.json) file.
 
 ## License
 
