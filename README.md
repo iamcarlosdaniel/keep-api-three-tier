@@ -47,7 +47,9 @@ This will be the database we will use. Although we are utilizing MongoDB, which 
 
 Below is the entity-relationship diagram:
 
-![](docs/entity_relationship_diagram.svg)
+<div align="center">
+<img src="docs/entity_relationship_diagram.svg" alt="Entity Relationship Diagram">
+</div>
 
 As can be seen, this is a relatively simple database, but it is sufficient for the needs of this project. We have the users table, which has a one-to-many relationship with both the sessions table and the notes table.
 
